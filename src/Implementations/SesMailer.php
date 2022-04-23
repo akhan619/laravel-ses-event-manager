@@ -147,7 +147,8 @@ class SesMailer implements SesMailerContract
         } else {
             Email::create([
                 'message_id'        =>  $result->getOriginalMessage()->getHeaders()->get('X-SES-Message-ID')->getValue(),
-                'email'             =>  current($result->getOriginalMessage()->getTo())->getAddress()
+                'email'             =>  current($result->getOriginalMessage()->getTo())->getAddress(),
+                'name'              =>  current($result->getOriginalMessage()->getTo())->getName()
             ]);
         }        
     }

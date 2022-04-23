@@ -27,6 +27,7 @@ class EmailFactory extends Factory
         return [
             'message_id'    =>  $this->faker->uuid(),
             'email'         =>  $this->faker->unique()->safeEmail(),
+            'name'          =>  $this->faker->name()
         ];
     }
 

@@ -41,6 +41,7 @@ class Email extends Model
     protected $fillable = [
         'message_id',
         'email',
+        'name',
         'has_send',
         'has_rendering_failure',
         'has_reject',
@@ -61,6 +62,7 @@ class Email extends Model
     protected $casts = [
         'message_id'                =>  'string',
         'email'                     =>  'string',
+        'name'                      =>  'string',
         'has_send'                  =>  'boolean',
         'has_rendering_failure'     =>  'boolean',
         'has_reject'                =>  'boolean',

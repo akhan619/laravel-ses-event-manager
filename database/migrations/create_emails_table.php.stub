@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('message_id')->unique();
             $table->string('email');
+            $table->string('name')->nullable();
             $table->boolean('has_send')->default(false);
             $table->boolean('has_rendering_failure')->default(false);
             $table->boolean('has_reject')->default(false);
