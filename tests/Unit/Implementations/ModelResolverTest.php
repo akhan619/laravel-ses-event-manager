@@ -2,28 +2,36 @@
 
 namespace Akhan619\LaravelSesEventManager\Tests\Unit\Implementations;
 
-use Akhan619\LaravelSesEventManager\App\Models\Email;
-use Akhan619\LaravelSesEventManager\App\Models\EmailDeliveryDelay;
 use Akhan619\LaravelSesEventManager\Contracts\ModelResolverContract;
 use Akhan619\LaravelSesEventManager\Tests\UnitTestCase;
 
 class ModelResolverTest extends UnitTestCase
-{
-    protected function setOptions($app)
-    {
-        $app['config']->set('laravel-ses-event-manager.resolved_models.emails', \Akhan619\LaravelSesEventManager\App\Models\Email::class);
-        $app['config']->set('laravel-ses-event-manager.resolved_models.delivery_delays', EmailDeliveryDelay::class);
-    }
-    
+{    
     /**
      * @test
-     * @define-env setOptions
      */
-    public function modelResolverReturnTheRightModel()
+    public function modelResolverCanRegisterCallback()
     {
         $resolver = app()->make(ModelResolverContract::class);
+        $resolver->extend('TestEvent', function($event, $data) {
+            
+        });
 
-        $this->assertEquals($resolver->getModelName('emails'), Email::class);
-        $this->assertEquals($resolver->getModelName('delivery_delays'), EmailDeliveryDelay::class);
+        $this->assertTrue($resolver->hasCallback('TestEvent'));
+        $this->assertFalse($resolver->hasCallback('NonExistentEvent'));
+    } 
+        
+    /**
+     * @test
+     */
+    public function modelResolverCanExecuteRegisteredCallback()
+    {
+        $resolver = app()->make(ModelResolverContract::class);
+        $resolver->extend('TestEvent', function($event, $data) {
+            return 'TestPassed';
+        });
+
+        $this->assertEquals($resolver->execute('TestEvent', []), 'TestPassed');
+        $this->assertNotEquals($resolver->execute('TestEvent', []), 'TestFailed');
     } 
 }

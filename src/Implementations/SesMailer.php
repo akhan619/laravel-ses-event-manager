@@ -11,6 +11,7 @@ use Illuminate\Mail\SentMessage;
 use Akhan619\LaravelSesEventManager\App\Models\Email;
 use Akhan619\LaravelSesEventManager\App\CustomMailer;
 use Akhan619\LaravelSesEventManager\App\CustomPendingMail;
+use Akhan619\LaravelSesEventManager\Contracts\ModelResolverContract;
 use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
 
 class SesMailer implements SesMailerContract
@@ -139,10 +140,16 @@ class SesMailer implements SesMailerContract
     */
     public function createEmailRecord($result): void
     {
-        Email::create([
-            'message_id'        =>  $result->getOriginalMessage()->getHeaders()->get('X-SES-Message-ID')->getValue(),
-            'email'             =>  current($result->getOriginalMessage()->getTo())->getAddress()
-        ]);
+        $modelResolver = app()->make(ModelResolverContract::class);
+        
+        if($modelResolver->hasCallback('MessageSent')) {
+            $modelResolver->execute('MessageSent', $result);
+        } else {
+            Email::create([
+                'message_id'        =>  $result->getOriginalMessage()->getHeaders()->get('X-SES-Message-ID')->getValue(),
+                'email'             =>  current($result->getOriginalMessage()->getTo())->getAddress()
+            ]);
+        }        
     }
 
     /*

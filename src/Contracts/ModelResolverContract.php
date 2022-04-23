@@ -2,12 +2,26 @@
 
 namespace Akhan619\LaravelSesEventManager\Contracts;
 
+use Closure;
+
 interface ModelResolverContract {
     
     /**
-    * Return the FQN model name
+    * Register the given callback for an event.
     *
     */
-    public function getModelName(string $type): string;
+    public function extend(string $eventType, Closure $callback): void;
+
+    /**
+    * Is a callback registered for the given event
+    *
+    */
+    public function hasCallback(string $eventType): bool;
+
+    /**
+    * Call the callback registered for the given event
+    *
+    */
+    public function execute(string $eventType, mixed $data): mixed;
 
 }

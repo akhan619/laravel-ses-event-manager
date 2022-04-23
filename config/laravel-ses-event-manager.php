@@ -152,26 +152,4 @@ return [
     |
     */
     'database_name_prefix' => 'lsem',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Model Map
-    |--------------------------------------------------------------------------
-    |
-    |	Specifies the models to use for storing event related data
-    |
-    */
-    'resolved_models'   =>  [
-        'emails' => \Akhan619\LaravelSesEventManager\App\Models\Email::class,
-        'sends' => \Akhan619\LaravelSesEventManager\App\Models\EmailSend::class,
-        'rendering_failures' => \Akhan619\LaravelSesEventManager\App\Models\EmailRenderingFailure::class,
-        'rejects' => \Akhan619\LaravelSesEventManager\App\Models\EmailReject::class,
-        'deliveries' => \Akhan619\LaravelSesEventManager\App\Models\EmailDelivery::class,
-        'bounces' => \Akhan619\LaravelSesEventManager\App\Models\EmailBounce::class,
-        'complaints' => \Akhan619\LaravelSesEventManager\App\Models\EmailComplaint::class,
-        'delivery_delays' => \Akhan619\LaravelSesEventManager\App\Models\EmailDeliveryDelay::class,
-        'subscriptions' => \Akhan619\LaravelSesEventManager\App\Models\EmailSubscription::class,
-        'opens' => \Akhan619\LaravelSesEventManager\App\Models\EmailOpen::class,
-        'clicks' => \Akhan619\LaravelSesEventManager\App\Models\EmailClick::class,
-    ],
 ];

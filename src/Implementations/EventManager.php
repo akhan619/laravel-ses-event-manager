@@ -46,42 +46,21 @@ class EventManager implements EventManagerContract
     }
 
     /**
-    * Should the package hand off event data processing to user class.
-    *
-    */
-    public function shouldPassEventHandlingToUserClass(string $modelName): bool
-    {
-        return is_subclass_of($modelName, 'Akhan619\LaravelSesEventManager\Contracts\ManagesDatabaseQueryContract');
-    }
-
-    /**
-    * Pass the event data and type to the user class
-    *
-    * @return void
-    */
-    public function passEventDataToUserClass(string $modelName, string $eventName, object $message)
-    {
-        $modelName::handleSesMessageData($eventName, $message);
-    }
-
-    /**
     * Process a bounce event
     *
     * @return void  
     */
     public function handleBounceEvent(object $message) : void
-    {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Bounce', $message);
+    {        
+        if($this->resolver->hasCallback('Bounce')) {
+            $this->resolver->execute('Bounce', $message);
             return;
         }
 
         try
         {
-            DB::transaction(function () use ($message, $email) {
-                $email = $email::where('message_id', $message->mail->messageId)->sole();
+            DB::transaction(function () use ($message) {
+                $email = Email::where('message_id', $message->mail->messageId)->sole();
                 $email->bounce()->create([
                     'bounce_type'           =>  $message->bounce->bounceType ?? null,
                     'bounce_sub_type'       =>  $message->bounce->bounceSubType ?? null,
@@ -113,10 +92,8 @@ class EventManager implements EventManagerContract
     */
     public function handleComplaintEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Complaint', $message);
+        if($this->resolver->hasCallback('Complaint')) {
+            $this->resolver->execute('Complaint', $message);
             return;
         }
 
@@ -152,10 +129,8 @@ class EventManager implements EventManagerContract
     */
     public function handleDeliveryEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Delivery', $message);
+        if($this->resolver->hasCallback('Delivery')) {
+            $this->resolver->execute('Delivery', $message);
             return;
         }
 
@@ -187,10 +162,8 @@ class EventManager implements EventManagerContract
     */
     public function handleSendEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Send', $message);
+        if($this->resolver->hasCallback('Send')) {
+            $this->resolver->execute('Send', $message);
             return;
         }
 
@@ -222,10 +195,8 @@ class EventManager implements EventManagerContract
     */
     public function handleRejectEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Reject', $message);
+        if($this->resolver->hasCallback('Reject')) {
+            $this->resolver->execute('Reject', $message);
             return;
         }
 
@@ -258,10 +229,8 @@ class EventManager implements EventManagerContract
     */
     public function handleOpenEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Open', $message);
+        if($this->resolver->hasCallback('Open')) {
+            $this->resolver->execute('Open', $message);
             return;
         }
 
@@ -294,10 +263,8 @@ class EventManager implements EventManagerContract
     */
     public function handleClickEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Click', $message);
+        if($this->resolver->hasCallback('Click')) {
+            $this->resolver->execute('Click', $message);
             return;
         }
 
@@ -332,10 +299,8 @@ class EventManager implements EventManagerContract
     */
     public function handleRenderingFailureEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'RenderingFailure', $message);
+        if($this->resolver->hasCallback('RenderingFailure')) {
+            $this->resolver->execute('RenderingFailure', $message);
             return;
         }
 
@@ -369,10 +334,8 @@ class EventManager implements EventManagerContract
     */
     public function handleDeliveryDelayEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'DeliveryDelay', $message);
+        if($this->resolver->hasCallback('DeliveryDelay')) {
+            $this->resolver->execute('DeliveryDelay', $message);
             return;
         }
 
@@ -406,10 +369,8 @@ class EventManager implements EventManagerContract
     */
     public function handleSubscriptionEvent(object $message) : void
     {
-        $email = $this->resolver->getModelName('emails');
-        
-        if($this->shouldPassEventHandlingToUserClass($email)) {
-            $this->passEventDataToUserClass($email, 'Subscription', $message);
+        if($this->resolver->hasCallback('Subscription')) {
+            $this->resolver->execute('Subscription', $message);
             return;
         }
 
