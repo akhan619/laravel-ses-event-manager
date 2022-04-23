@@ -6,7 +6,7 @@ return [
     | Debug mode
     |--------------------------------------------------------------------------
     |
-    |	Is logging enabled?
+    |	Is logging enabled? Logs using the Log facade.
     |	Type: bool
     |
     */
@@ -17,7 +17,8 @@ return [
     | Enable Message Handling
     |--------------------------------------------------------------------------
     |
-    |	Should email event messages be handled by the package
+    |	Should email event messages be handled by the package. Setting this to false
+    |   basically disables the package.
     |	Type: bool
     |
     */
@@ -89,7 +90,7 @@ return [
     |--------------------------------------------------------------------------
     |
     |   Define the route middleware for the http/s endpoint to use. For 3rd-party 
-    |   calls like Aws here, should be usually left blank.
+    |   calls like Aws here, should be left blank. 
     |	Type: array
     |
     */
@@ -103,7 +104,7 @@ return [
     |   Define the route names to use when listening for SNS notifications. These will be 
     |   automatically setup for use. The general syntax is:
     |       APP_URL/prefix/route
-    |   Example based on defaults:
+    |   Example based on a fresh laravel project:
     |       http://localhost/email/notification/sends
     |
     |   Note: The routes will be registered only if they are enabled under the 'active' key.
@@ -151,4 +152,26 @@ return [
     |
     */
     'database_name_prefix' => 'lsem',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Model Map
+    |--------------------------------------------------------------------------
+    |
+    |	Specifies the models to use for storing event related data
+    |
+    */
+    'resolved_models'   =>  [
+        'emails' => \Akhan619\LaravelSesEventManager\App\Models\Email::class,
+        'sends' => \Akhan619\LaravelSesEventManager\App\Models\EmailSend::class,
+        'rendering_failures' => \Akhan619\LaravelSesEventManager\App\Models\EmailRenderingFailure::class,
+        'rejects' => \Akhan619\LaravelSesEventManager\App\Models\EmailReject::class,
+        'deliveries' => \Akhan619\LaravelSesEventManager\App\Models\EmailDelivery::class,
+        'bounces' => \Akhan619\LaravelSesEventManager\App\Models\EmailBounce::class,
+        'complaints' => \Akhan619\LaravelSesEventManager\App\Models\EmailComplaint::class,
+        'delivery_delays' => \Akhan619\LaravelSesEventManager\App\Models\EmailDeliveryDelay::class,
+        'subscriptions' => \Akhan619\LaravelSesEventManager\App\Models\EmailSubscription::class,
+        'opens' => \Akhan619\LaravelSesEventManager\App\Models\EmailOpen::class,
+        'clicks' => \Akhan619\LaravelSesEventManager\App\Models\EmailClick::class,
+    ],
 ];

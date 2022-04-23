@@ -8,8 +8,12 @@ use Akhan619\LaravelSesEventManager\Implementations\SesMailer;
 use Akhan619\LaravelSesEventManager\Mocking\TestMailable;
 use Akhan619\LaravelSesEventManager\Mocking\TestMailableWithMultipleRecipients;
 use Akhan619\LaravelSesEventManager\Mocking\TestMailableWithRecipient;
+use Akhan619\LaravelSesEventManager\Mocking\TestMailableWithTrait;
+use Akhan619\LaravelSesEventManager\Mocking\TestQueuedMailable;
 use Akhan619\LaravelSesEventManager\Tests\UnitTestCase;
+use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Mail\SentMessage;
+use Illuminate\Support\Facades\Queue;
 use \Mockery as m;
 
 class SesMailerTest extends UnitTestCase
@@ -184,5 +188,53 @@ class SesMailerTest extends UnitTestCase
 
         $this->expectException(MultipleRecipientsInEmailException::class);
         $sesMailer->send($mailable);
+    }
+    
+    /**
+     * @test
+     * @define-env setMailTestingEnvironment
+     */
+    public function sesMailerCanQueueAQueuedMailable()
+    {
+        Queue::fake();
+        $sesMailer = app()->make('SesMailer');
+        $mailable = new TestQueuedMailable();
+
+        Queue::assertNothingPushed();
+        $sesMailer->to('john@doe.com')->send($mailable);
+        Queue::assertPushed(SendQueuedMailable::class, 1);
+    }
+    
+    /**
+     * @test
+     * @define-env setMailTestingEnvironment
+     */
+    public function sesMailerCanQueueWithQueueMethod()
+    {
+        Queue::fake();
+        $sesMailer = app()->make('SesMailer');
+        $mailable = new TestMailable();
+
+        Queue::assertNothingPushed();
+        $sesMailer->to('john@doe.com')->queue($mailable);
+        Queue::assertPushed(SendQueuedMailable::class, 1);
+    }
+    
+    /**
+     * @test
+     * @define-env setMailTestingEnvironment
+     */
+    public function queuedMailWithTraitIsSentUsingSesMailer()
+    {
+        // Honestly this test makes no sense since it is gauranteed by other test and/or by php trait inheritance.
+        Queue::fake();
+        $sesMailer = app()->make('SesMailer');
+        $mailable = new TestMailableWithTrait();
+
+        Queue::assertNothingPushed();
+        $sesMailer->to('john@doe.com')->queue($mailable);
+        Queue::assertPushed(function(SendQueuedMailable $job) {
+            return ($job->displayName() === TestMailableWithTrait::class);
+        });
     }
 }

@@ -32,7 +32,7 @@ class SesMailer implements SesMailerContract
         ];
 
         $mailer = new CustomMailer(
-            LaravelSesEventManagerServiceProvider::PREFIX,
+            LaravelSesEventManagerServiceProvider::PREFIX . '-mailer',
             app()->make('view'),
             $this->createSesTransport($config),
             app()->make('events')

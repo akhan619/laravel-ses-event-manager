@@ -3,8 +3,10 @@
 namespace Akhan619\LaravelSesEventManager;
 
 use Akhan619\LaravelSesEventManager\App\Http\Controllers\BaseController;
+use Akhan619\LaravelSesEventManager\Implementations\ModelResolver;
 use Akhan619\LaravelSesEventManager\Contracts\BaseControllerContract;
 use Akhan619\LaravelSesEventManager\Contracts\EventManagerContract;
+use Akhan619\LaravelSesEventManager\Contracts\ModelResolverContract;
 use Akhan619\LaravelSesEventManager\Contracts\RouteLoaderContract;
 use Akhan619\LaravelSesEventManager\Implementations\EventManager;
 use Akhan619\LaravelSesEventManager\Implementations\SesMailer;
@@ -21,7 +23,7 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider implements D
     public $singletons = [
         RouteLoaderContract::class => RouteLoader::class,
         BaseControllerContract::class => BaseController::class,
-        EventManagerContract::class => EventManager::class,
+        ModelResolverContract::class => ModelResolver::class,
     ];
 
     /**
@@ -53,6 +55,10 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider implements D
         $this->app->singleton('SesMailer', function ($app) {
             return new SesMailer();
         });
+
+        $this->app->singleton(EventManagerContract::class, function ($app) {
+            return new EventManager($app->make(ModelResolverContract::class));
+        });
     }
     
     public function provides()
@@ -60,7 +66,7 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider implements D
         return [
             RouteLoaderContract::class,
             BaseControllerContract::class,
-            EventManagerContract::class
+            ModelResolverContract::class,
         ];
     }
 
@@ -94,7 +100,7 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider implements D
 
     protected function registerRoutes() : void
     {
-        // Check if handling events is enabled and register the routes.
+        // Check if handling events is enabled, then register the routes.
         if(config('laravel-ses-event-manager.handle_email_events', false)) 
         {
             Route::group($this->routeConfiguration(), function () {

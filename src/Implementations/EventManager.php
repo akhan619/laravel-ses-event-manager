@@ -4,6 +4,7 @@ namespace Akhan619\LaravelSesEventManager\Implementations;
 
 use Akhan619\LaravelSesEventManager\App\Models\Email;
 use Akhan619\LaravelSesEventManager\Contracts\EventManagerContract;
+use Akhan619\LaravelSesEventManager\Contracts\ModelResolverContract;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -11,6 +12,13 @@ use Illuminate\Support\Carbon;
 
 class EventManager implements EventManagerContract
 {
+    protected ModelResolverContract $resolver;
+
+    public function __construct(ModelResolverContract $resolver)
+    {
+        $this->resolver = $resolver;
+    }
+
     /**
     * Handle the event based on the event type.
     *
@@ -38,16 +46,42 @@ class EventManager implements EventManagerContract
     }
 
     /**
+    * Should the package hand off event data processing to user class.
+    *
+    */
+    public function shouldPassEventHandlingToUserClass(string $modelName): bool
+    {
+        return is_subclass_of($modelName, 'Akhan619\LaravelSesEventManager\Contracts\ManagesDatabaseQueryContract');
+    }
+
+    /**
+    * Pass the event data and type to the user class
+    *
+    * @return void
+    */
+    public function passEventDataToUserClass(string $modelName, string $eventName, object $message)
+    {
+        $modelName::handleSesMessageData($eventName, $message);
+    }
+
+    /**
     * Process a bounce event
     *
     * @return void  
     */
     public function handleBounceEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Bounce', $message);
+            return;
+        }
+
         try
         {
-            DB::transaction(function () use ($message) {
-                $email = Email::where('message_id', $message->mail->messageId)->sole();
+            DB::transaction(function () use ($message, $email) {
+                $email = $email::where('message_id', $message->mail->messageId)->sole();
                 $email->bounce()->create([
                     'bounce_type'           =>  $message->bounce->bounceType ?? null,
                     'bounce_sub_type'       =>  $message->bounce->bounceSubType ?? null,
@@ -79,6 +113,13 @@ class EventManager implements EventManagerContract
     */
     public function handleComplaintEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Complaint', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -111,6 +152,13 @@ class EventManager implements EventManagerContract
     */
     public function handleDeliveryEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Delivery', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -139,6 +187,13 @@ class EventManager implements EventManagerContract
     */
     public function handleSendEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Send', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -167,6 +222,13 @@ class EventManager implements EventManagerContract
     */
     public function handleRejectEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Reject', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -196,6 +258,13 @@ class EventManager implements EventManagerContract
     */
     public function handleOpenEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Open', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -225,6 +294,13 @@ class EventManager implements EventManagerContract
     */
     public function handleClickEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Click', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -256,6 +332,13 @@ class EventManager implements EventManagerContract
     */
     public function handleRenderingFailureEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'RenderingFailure', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -286,6 +369,13 @@ class EventManager implements EventManagerContract
     */
     public function handleDeliveryDelayEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'DeliveryDelay', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
@@ -316,6 +406,13 @@ class EventManager implements EventManagerContract
     */
     public function handleSubscriptionEvent(object $message) : void
     {
+        $email = $this->resolver->getModelName('emails');
+        
+        if($this->shouldPassEventHandlingToUserClass($email)) {
+            $this->passEventDataToUserClass($email, 'Subscription', $message);
+            return;
+        }
+
         try
         {
             DB::transaction(function () use ($message) {
