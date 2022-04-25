@@ -13,18 +13,11 @@ use Akhan619\LaravelSesEventManager\Implementations\SesMailer;
 use Akhan619\LaravelSesEventManager\Implementations\RouteLoader;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\Str;
 
-class LaravelSesEventManagerServiceProvider extends ServiceProvider implements DeferrableProvider
+class LaravelSesEventManagerServiceProvider extends ServiceProvider
 {
     const PREFIX = 'lsem';
-
-    public $singletons = [
-        RouteLoaderContract::class => RouteLoader::class,
-        BaseControllerContract::class => BaseController::class,
-        ModelResolverContract::class => ModelResolver::class,
-    ];
 
     /**
      * Perform post-registration booting of services.
@@ -37,8 +30,7 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider implements D
         $this->registerRoutes();
 
         // Publishing is only necessary when using the CLI.
-        if ($this->app->runningInConsole()) 
-        {
+        if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
     }
@@ -56,18 +48,21 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider implements D
             return new SesMailer();
         });
 
+        $this->app->singleton(BaseControllerContract::class, function ($app) {
+            return new BaseController();
+        });
+
+        $this->app->singleton(RouteLoaderContract::class, function ($app) {
+            return new RouteLoader();
+        });
+
+        $this->app->singleton(ModelResolverContract::class, function ($app) {
+            return new ModelResolver();
+        });
+
         $this->app->singleton(EventManagerContract::class, function ($app) {
             return new EventManager($app->make(ModelResolverContract::class));
         });
-    }
-    
-    public function provides()
-    {
-        return [
-            RouteLoaderContract::class,
-            BaseControllerContract::class,
-            ModelResolverContract::class,
-        ];
     }
 
     /**
@@ -101,8 +96,7 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider implements D
     protected function registerRoutes() : void
     {
         // Check if handling events is enabled, then register the routes.
-        if(config('laravel-ses-event-manager.handle_email_events', false)) 
-        {
+        if(config('laravel-ses-event-manager.handle_email_events', false)) {
             Route::group($this->routeConfiguration(), function () {
                 $this->app->make(RouteLoaderContract::class)::create();
             });
