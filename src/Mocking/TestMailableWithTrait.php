@@ -8,11 +8,11 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Str;
 use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
-use Akhan619\LaravelSesEventManager\Traits\ModifiesBaseMailable;
+use Akhan619\LaravelSesEventManager\Traits\QueueForCustomMailer;
 
 class TestMailableWithTrait extends Mailable
 {
-    use Queueable, SerializesModels, ModifiesBaseMailable;
+    use Queueable, SerializesModels, QueueForCustomMailer;
 
     /**
      * Create a new message instance.

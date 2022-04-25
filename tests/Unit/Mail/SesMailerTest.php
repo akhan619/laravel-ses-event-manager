@@ -226,7 +226,6 @@ class SesMailerTest extends UnitTestCase
      */
     public function queuedMailWithTraitIsSentUsingSesMailer()
     {
-        // Honestly this test makes no sense since it is gauranteed by other test and/or by php trait inheritance.
         Queue::fake();
         $sesMailer = app()->make('SesMailer');
         $mailable = new TestMailableWithTrait();

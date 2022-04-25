@@ -5,7 +5,7 @@ namespace Akhan619\LaravelSesEventManager\Traits;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Mail\Factory as MailFactory;
 
-trait ModifiesBaseMailable
+trait QueueForCustomMailer
 {
     /**
      * Send the message using the given mailer.
@@ -19,7 +19,7 @@ trait ModifiesBaseMailable
             Container::getInstance()->call([$this, 'build']);
 
             $mailer = $mailer instanceof MailFactory
-                            ? app()->make('SesMailer')->getCustomMailer()
+                            ? app()->make('SesMailer')
                             : $mailer;
 
             return $mailer->send($this->buildView(), $this->buildViewData(), function ($message) {
