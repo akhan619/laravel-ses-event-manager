@@ -15,36 +15,34 @@ class EmailTest extends UnitTestCase
         parent::setUp();
 
         // Import the Emails Table class from the migration
-        $this->tables = [];    
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_emails_table.php.stub';
-        
-        foreach($this->tables as $table) 
-        {
+        $this->tables = [];
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_emails_table.php.stub';
+
+        foreach ($this->tables as $table) {
             $table->up();
         }
     }
-    
+
     protected function tearDown(): void
     {
-        foreach($this->tables as $table) 
-        {
+        foreach ($this->tables as $table) {
             $table->down();
         }
-        
+
         parent::tearDown();
     }
 
     /** @test */
-    function emailsTableIsCreatedSuccessfully()
+    public function emailsTableIsCreatedSuccessfully()
     {
-        $this->assertTrue(Schema::hasTable(config('laravel-ses-event-manager.database_name_prefix') . '_emails'));
+        $this->assertTrue(Schema::hasTable(config('laravel-ses-event-manager.database_name_prefix').'_emails'));
     }
 
     /** @test */
-    function emailModelCanBeCreatedSuccessfully()
+    public function emailModelCanBeCreatedSuccessfully()
     {
         $email = Email::factory()->create();
-        
+
         $this->assertModelExists($email);
     }
 }

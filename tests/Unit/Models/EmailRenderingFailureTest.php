@@ -16,45 +16,43 @@ class EmailRenderingFailureTest extends UnitTestCase
         parent::setUp();
 
         // Import the tables from the migration
-        $this->tables = [];    
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_emails_table.php.stub';
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_email_rendering_failures_table.php.stub';
-        
-        foreach($this->tables as $table) 
-        {
+        $this->tables = [];
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_emails_table.php.stub';
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_email_rendering_failures_table.php.stub';
+
+        foreach ($this->tables as $table) {
             $table->up();
         }
     }
-    
+
     protected function tearDown(): void
     {
-        foreach($this->tables as $table) 
-        {
+        foreach ($this->tables as $table) {
             $table->down();
         }
-        
+
         parent::tearDown();
     }
 
     /** @test */
-    function emailRenderingFailuresTableIsCreatedSuccessfully()
+    public function emailRenderingFailuresTableIsCreatedSuccessfully()
     {
-        $this->assertTrue(Schema::hasTable(config('laravel-ses-event-manager.database_name_prefix') . '_email_rendering_failures'));
+        $this->assertTrue(Schema::hasTable(config('laravel-ses-event-manager.database_name_prefix').'_email_rendering_failures'));
     }
 
     /** @test */
-    function emailRenderingFailureModelCanBeCreatedSuccessfully()
+    public function emailRenderingFailureModelCanBeCreatedSuccessfully()
     {
         $email = Email::factory()->renderingFailed()->create();
         $emailRenderingFailure = EmailRenderingFailure::factory()->for($email, 'email')->create();
-        
+
         $this->assertModelExists($email);
         $this->assertModelExists($emailRenderingFailure);
         $this->assertEquals($email->message_id, $emailRenderingFailure->message_id, 'message_ids dont match for the two model instances.');
     }
 
     /** @test */
-    function modelRelationshipsAreWorking()
+    public function modelRelationshipsAreWorking()
     {
         $email = Email::factory()->renderingFailed()->create();
         $emailRenderingFailure = EmailRenderingFailure::factory()->for($email, 'email')->create();

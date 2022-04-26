@@ -25,9 +25,9 @@ class EmailRejectFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'        =>  $this->faker->uuid(),
-            'reason'            =>  'Bad content',
-            'rejected_at'       =>  now(),
+            'message_id'        => $this->faker->uuid(),
+            'reason'            => 'Bad content',
+            'rejected_at'       => now(),
         ];
     }
 }

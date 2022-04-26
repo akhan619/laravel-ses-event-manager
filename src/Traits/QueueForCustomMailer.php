@@ -10,7 +10,8 @@ trait QueueForCustomMailer
     /**
      * Send the message using the given mailer.
      *
-     * @param  \Illuminate\Contracts\Mail\Factory|\Illuminate\Contracts\Mail\Mailer  $mailer
+     * @param \Illuminate\Contracts\Mail\Factory|\Illuminate\Contracts\Mail\Mailer $mailer
+     *
      * @return \Illuminate\Mail\SentMessage|null
      */
     public function send($mailer)

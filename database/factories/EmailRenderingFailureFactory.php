@@ -25,10 +25,10 @@ class EmailRenderingFailureFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'            =>  $this->faker->uuid(),
-            'template_name'         =>  'MyTemplate',
-            'error_message'         =>  "Attribute 'attributeName' is not present in the rendering data.",
-            'failed_at'             =>  now(),
+            'message_id'            => $this->faker->uuid(),
+            'template_name'         => 'MyTemplate',
+            'error_message'         => "Attribute 'attributeName' is not present in the rendering data.",
+            'failed_at'             => now(),
         ];
     }
 }

@@ -26,28 +26,28 @@ abstract class FeatureTestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('app.debug', false);    
-            
+        $app['config']->set('app.debug', false);
+
         // Setup default database to use sqlite :memory:
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver'   => 'sqlite',
-            'database' => ':memory:',
-            'prefix'   => '',
+            'driver'                  => 'sqlite',
+            'database'                => ':memory:',
+            'prefix'                  => '',
             'foreign_key_constraints' => true,
         ]);
 
         $app['config']->set('laravel-ses-event-manager.active_email_events', [
-            'sends' => true,
+            'sends'              => true,
             'rendering_failures' => true,
-            'rejects' => true,
-            'deliveries' => true,
-            'bounces' => true,
-            'complaints' => true,
-            'delivery_delays' => true,
-            'subscriptions' => true,
-            'opens' => true,
-            'clicks' => true,
+            'rejects'            => true,
+            'deliveries'         => true,
+            'bounces'            => true,
+            'complaints'         => true,
+            'delivery_delays'    => true,
+            'subscriptions'      => true,
+            'opens'              => true,
+            'clicks'             => true,
         ]);
     }
 }

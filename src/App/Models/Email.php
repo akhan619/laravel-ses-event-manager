@@ -13,14 +13,15 @@ class Email extends Model
     /**
      * Create a new Eloquent model instance.
      *
-     * @param  array  $attributes
+     * @param array $attributes
+     *
      * @return void
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('laravel-ses-event-manager.database_name_prefix') . '_emails';
+        $this->table = config('laravel-ses-event-manager.database_name_prefix').'_emails';
     }
 
     /**
@@ -51,7 +52,7 @@ class Email extends Model
         'has_delivery_delay',
         'has_subscription',
         'has_open',
-        'has_click'
+        'has_click',
     ];
 
     /**
@@ -60,19 +61,19 @@ class Email extends Model
      * @var array
      */
     protected $casts = [
-        'message_id'                =>  'string',
-        'email'                     =>  'string',
-        'name'                      =>  'string',
-        'has_send'                  =>  'boolean',
-        'has_rendering_failure'     =>  'boolean',
-        'has_reject'                =>  'boolean',
-        'has_delivery'              =>  'boolean',
-        'has_bounce'                =>  'boolean',
-        'has_complaint'             =>  'boolean',
-        'has_delivery_delay'        =>  'boolean',
-        'has_subscription'          =>  'boolean',
-        'has_open'                  =>  'boolean',
-        'has_click'                 =>  'boolean',
+        'message_id'                => 'string',
+        'email'                     => 'string',
+        'name'                      => 'string',
+        'has_send'                  => 'boolean',
+        'has_rendering_failure'     => 'boolean',
+        'has_reject'                => 'boolean',
+        'has_delivery'              => 'boolean',
+        'has_bounce'                => 'boolean',
+        'has_complaint'             => 'boolean',
+        'has_delivery_delay'        => 'boolean',
+        'has_subscription'          => 'boolean',
+        'has_open'                  => 'boolean',
+        'has_click'                 => 'boolean',
     ];
 
     /**

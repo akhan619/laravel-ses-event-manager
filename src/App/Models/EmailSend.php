@@ -13,14 +13,15 @@ class EmailSend extends Model
     /**
      * Create a new Eloquent model instance.
      *
-     * @param  array  $attributes
+     * @param array $attributes
+     *
      * @return void
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('laravel-ses-event-manager.database_name_prefix') . '_email_sends';
+        $this->table = config('laravel-ses-event-manager.database_name_prefix').'_email_sends';
     }
 
     /**
@@ -49,8 +50,8 @@ class EmailSend extends Model
      * @var array
      */
     protected $casts = [
-        'message_id'            =>  'string',
-        'sent_at'               =>  'datetime',
+        'message_id'            => 'string',
+        'sent_at'               => 'datetime',
     ];
 
     /**

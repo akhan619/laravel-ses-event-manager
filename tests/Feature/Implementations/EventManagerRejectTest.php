@@ -2,8 +2,8 @@
 
 namespace Akhan619\LaravelSesEventManager\Tests\Feature\Implementations;
 
-use Akhan619\LaravelSesEventManager\Tests\FeatureTestCase;
 use Akhan619\LaravelSesEventManager\App\Models\Email;
+use Akhan619\LaravelSesEventManager\Tests\FeatureTestCase;
 use Illuminate\Routing\Router;
 
 class EventManagerRejectTest extends FeatureTestCase
@@ -19,39 +19,37 @@ class EventManagerRejectTest extends FeatureTestCase
         parent::setUp();
 
         $this->router = $this->app->make(Router::class);
-        $this->routeName = $this->app->config->get('laravel-ses-event-manager.named_route_prefix') . '.rejects';
+        $this->routeName = $this->app->config->get('laravel-ses-event-manager.named_route_prefix').'.rejects';
 
         // Import the tables from the migration
-        $this->tables = [];    
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_emails_table.php.stub';
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_email_rejects_table.php.stub';
-        $this->emailTable = config('laravel-ses-event-manager.database_name_prefix') . '_emails';
-        $this->rejectTable = config('laravel-ses-event-manager.database_name_prefix') . '_email_rejects';
-        
-        foreach($this->tables as $table) 
-        {
+        $this->tables = [];
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_emails_table.php.stub';
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_email_rejects_table.php.stub';
+        $this->emailTable = config('laravel-ses-event-manager.database_name_prefix').'_emails';
+        $this->rejectTable = config('laravel-ses-event-manager.database_name_prefix').'_email_rejects';
+
+        foreach ($this->tables as $table) {
             $table->up();
         }
     }
-    
+
     protected function tearDown(): void
     {
-        foreach($this->tables as $table) 
-        {
+        foreach ($this->tables as $table) {
             $table->down();
         }
-        
+
         parent::tearDown();
     }
 
     /** @test */
-    function rejectEventIsSuccessfullySaved()
+    public function rejectEventIsSuccessfullySaved()
     {
         $this->assertDatabaseCount($this->rejectTable, 0);
         $this->assertDatabaseCount($this->emailTable, 0);
 
         $email = Email::factory()->create();
-        
+
         $this->assertModelExists($email);
         $this->assertDatabaseCount($this->emailTable, 1);
         $this->assertDatabaseHas($this->emailTable, [
@@ -66,11 +64,11 @@ class EventManagerRejectTest extends FeatureTestCase
         $this->json(
             'POST',
             "$route->uri",
-            (array)$fakeJson
+            (array) $fakeJson
         )
         ->assertJson(['success' => true])
         ->assertStatus(200);
-        
+
         $this->assertDatabaseCount($this->rejectTable, 1);
         $this->assertDatabaseCount($this->emailTable, 1);
         $this->assertDatabaseHas($this->emailTable, [

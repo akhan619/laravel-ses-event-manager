@@ -25,9 +25,9 @@ class EmailOpenFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'    =>  $this->faker->uuid(),
-            'user_agent'    =>  $this->faker->userAgent(),
-            'opened_at'     =>  now(),
+            'message_id'    => $this->faker->uuid(),
+            'user_agent'    => $this->faker->userAgent(),
+            'opened_at'     => now(),
         ];
     }
 }

@@ -25,14 +25,14 @@ class EmailComplaintFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'        =>  $this->faker->uuid(),
-            'feedback_id'       =>  $this->faker->uuid(),
-            'complained_at'     =>  now(),
+            'message_id'        => $this->faker->uuid(),
+            'feedback_id'       => $this->faker->uuid(),
+            'complained_at'     => now(),
         ];
     }
 
     /**
-     * Add feedback report data
+     * Add feedback report data.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -40,8 +40,8 @@ class EmailComplaintFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'user_agent'                    =>  $this->faker->userAgent(),
-                'complaint_feedback_type'       =>  'abuse',
+                'user_agent'                    => $this->faker->userAgent(),
+                'complaint_feedback_type'       => 'abuse',
             ];
         });
     }

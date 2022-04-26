@@ -13,14 +13,15 @@ class EmailBounce extends Model
     /**
      * Create a new Eloquent model instance.
      *
-     * @param  array  $attributes
+     * @param array $attributes
+     *
      * @return void
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('laravel-ses-event-manager.database_name_prefix') . '_email_bounces';
+        $this->table = config('laravel-ses-event-manager.database_name_prefix').'_email_bounces';
     }
 
     /**
@@ -56,15 +57,15 @@ class EmailBounce extends Model
      * @var array
      */
     protected $casts = [
-        'message_id'            =>  'string',
-        'bounce_type'           =>  'string',
-        'bounce_sub_type'       =>  'string',
-        'feedback_id'           =>  'string',
-        'action'                =>  'string',
-        'status'                =>  'string',
-        'diagnostic_code'       =>  'string',
-        'reporting_mta'         =>  'string',
-        'bounced_at'            =>  'datetime',
+        'message_id'            => 'string',
+        'bounce_type'           => 'string',
+        'bounce_sub_type'       => 'string',
+        'feedback_id'           => 'string',
+        'action'                => 'string',
+        'status'                => 'string',
+        'diagnostic_code'       => 'string',
+        'reporting_mta'         => 'string',
+        'bounced_at'            => 'datetime',
     ];
 
     /**
