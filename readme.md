@@ -1,4 +1,9 @@
 # Laravel Ses Event Manager
+[![Latest Stable Version](http://poser.pugx.org/akhan619/laravel-ses-event-manager/v?style=flat-square)](https://packagist.org/packages/akhan619/laravel-ses-event-manager)
+[![PHP Version Require](http://poser.pugx.org/akhan619/laravel-ses-event-manager/require/php?style=flat-square)](https://packagist.org/packages/akhan619/laravel-ses-event-manager)
+[![Total Downloads](http://poser.pugx.org/akhan619/laravel-ses-event-manager/downloads?style=flat-square)](https://packagist.org/packages/akhan619/laravel-ses-event-manager)
+[![StyleCI](https://github.styleci.io/repos/484619978/shield?branch=main)](https://github.styleci.io/repos/484619978?branch=main)
+[![License](http://poser.pugx.org/akhan619/laravel-ses-event-manager/license?style=flat-square)](https://packagist.org/packages/akhan619/laravel-ses-event-manager)
 
 Manage incoming `SES` email event notifications over the http/s protocols. This package provides all the set up needed to send normal and queued emails using `SES` and then handle the email event notifications sent by `SES` to http/s webhook. This includes all 10 events as listed by `SES` like `send`, `bounce`, `open`, `click`, etc. Database and eloquent models are provided which store the event data. Don't want to use the models provided by the package or want to handle the event differently. Don't worry! you are covered. Every part of the pacakge is implemented to be modifable by the end user.
 
