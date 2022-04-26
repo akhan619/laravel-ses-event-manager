@@ -25,11 +25,11 @@ class EmailSubscriptionFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'                        =>  $this->faker->uuid(),
-            'contact_list'                      =>  'SystemMonitor-Canary',
-            'new_topic_preferences'             =>  [],
-            'old_topic_preferences'             =>  [],
-            'notified_at'                       =>  now(),
+            'message_id'                        => $this->faker->uuid(),
+            'contact_list'                      => 'SystemMonitor-Canary',
+            'new_topic_preferences'             => [],
+            'old_topic_preferences'             => [],
+            'notified_at'                       => now(),
         ];
     }
 }

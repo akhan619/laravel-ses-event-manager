@@ -3,28 +3,28 @@
 namespace Akhan619\LaravelSesEventManager\Tests\Feature\Controller;
 
 use Akhan619\LaravelSesEventManager\Tests\FeatureTestCase;
+use Illuminate\Http\Client\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\Request;
 
 class BaseControllerTest extends FeatureTestCase
-{    
+{
     protected Router $router;
     protected string $routeName;
 
     /**
      * Setup the test environment.
      */
-    protected function setUp() : void
+    protected function setUp(): void
     {
         // Code before application created.
-    
+
         parent::setUp();
-    
+
         // Code after application created.
-    
+
         $this->router = $this->app->make(Router::class);
-        $this->routeName = $this->app->config->get('laravel-ses-event-manager.named_route_prefix') . '.bounces';
+        $this->routeName = $this->app->config->get('laravel-ses-event-manager.named_route_prefix').'.bounces';
     }
 
     protected function disableSubscriptionConfirmation($app)
@@ -40,8 +40,8 @@ class BaseControllerTest extends FeatureTestCase
     /**
      * @test
      * @define-env enableSubscriptionConfirmation
-     */ 
-    public function subscriptionIsConfirmedCorrectlyWhenEnabled() : void
+     */
+    public function subscriptionIsConfirmedCorrectlyWhenEnabled(): void
     {
         Http::fake([
             // Stub a JSON response for the fake subscribe url
@@ -49,13 +49,13 @@ class BaseControllerTest extends FeatureTestCase
         ]);
 
         $fakeJson = json_decode($this->exampleSubscriptionResponse);
-        
+
         $route = $this->router->getRoutes()->getByName($this->routeName);
 
         $this->json(
             'POST',
             "$route->uri",
-            (array)$fakeJson
+            (array) $fakeJson
         )
         ->assertJson(['success' => true])
         ->assertStatus(200);
@@ -64,8 +64,8 @@ class BaseControllerTest extends FeatureTestCase
     /**
      * @test
      * @define-env disableSubscriptionConfirmation
-     */ 
-    public function subscriptionIsSkippedCorrectlyWhenDisabled() : void
+     */
+    public function subscriptionIsSkippedCorrectlyWhenDisabled(): void
     {
         Http::fake([
             // Stub a JSON response for the fake subscribe url
@@ -73,13 +73,13 @@ class BaseControllerTest extends FeatureTestCase
         ]);
 
         $fakeJson = json_decode($this->exampleSubscriptionResponse);
-        
+
         $route = $this->router->getRoutes()->getByName($this->routeName);
 
         $this->json(
             'POST',
             "$route->uri",
-            (array)$fakeJson
+            (array) $fakeJson
         )
         ->assertJson(['success' => true])
         ->assertStatus(200);
@@ -92,7 +92,7 @@ class BaseControllerTest extends FeatureTestCase
     /**
      * @test
      */
-    public function subscriptionFailsWhenGetRequestToSubscribeUrlReturnsNonOkStatus() : void
+    public function subscriptionFailsWhenGetRequestToSubscribeUrlReturnsNonOkStatus(): void
     {
         Http::fake([
             // Stub a JSON response for the fake subscribe url
@@ -100,13 +100,13 @@ class BaseControllerTest extends FeatureTestCase
         ]);
 
         $fakeJson = json_decode($this->exampleSubscriptionResponse);
-        
+
         $route = $this->router->getRoutes()->getByName($this->routeName);
 
         $this->json(
             'POST',
             "$route->uri",
-            (array)$fakeJson
+            (array) $fakeJson
         )
         ->assertJson(['success' => false])
         ->assertStatus(422);
@@ -115,16 +115,16 @@ class BaseControllerTest extends FeatureTestCase
     /**
      * @test
      */
-    public function returnsCorrectStatusWhenNotificationTypeIsUnknown() : void
+    public function returnsCorrectStatusWhenNotificationTypeIsUnknown(): void
     {
         $fakeJson = json_decode($this->exampleUnknownResponseType);
-        
+
         $route = $this->router->getRoutes()->getByName($this->routeName);
 
         $this->json(
             'POST',
             "$route->uri",
-            (array)$fakeJson
+            (array) $fakeJson
         )
         ->assertJson(['success' => false])
         ->assertStatus(422);
@@ -133,16 +133,16 @@ class BaseControllerTest extends FeatureTestCase
     /**
      * @test
      */
-    public function returnsCorrectStatusWhenResponseMessageBodyFailsToParse() : void
+    public function returnsCorrectStatusWhenResponseMessageBodyFailsToParse(): void
     {
         $fakeJson = json_decode($this->examplePoorNotificationResponseMessageBody);
-        
+
         $route = $this->router->getRoutes()->getByName($this->routeName);
 
         $this->json(
             'POST',
             "$route->uri",
-            (array)$fakeJson
+            (array) $fakeJson
         )
         ->assertJson(['success' => false])
         ->assertStatus(422);

@@ -2,17 +2,18 @@
 
 namespace Akhan619\LaravelSesEventManager\Mocking;
 
+use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
+use Akhan619\LaravelSesEventManager\Traits\QueueForCustomMailer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Str;
-use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
-use Akhan619\LaravelSesEventManager\Traits\QueueForCustomMailer;
 
 class TestMailableWithTrait extends Mailable
 {
-    use Queueable, SerializesModels, QueueForCustomMailer;
+    use Queueable;
+    use SerializesModels;
+    use QueueForCustomMailer;
 
     /**
      * Create a new message instance.
@@ -31,6 +32,6 @@ class TestMailableWithTrait extends Mailable
      */
     public function build()
     {
-        return $this->view(Str::studly(LaravelSesEventManagerServiceProvider::PREFIX) . '::test');
+        return $this->view(Str::studly(LaravelSesEventManagerServiceProvider::PREFIX).'::test');
     }
 }

@@ -13,14 +13,15 @@ class EmailClick extends Model
     /**
      * Create a new Eloquent model instance.
      *
-     * @param  array  $attributes
+     * @param array $attributes
+     *
      * @return void
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('laravel-ses-event-manager.database_name_prefix') . '_email_clicks';
+        $this->table = config('laravel-ses-event-manager.database_name_prefix').'_email_clicks';
     }
 
     /**
@@ -52,11 +53,11 @@ class EmailClick extends Model
      * @var array
      */
     protected $casts = [
-        'message_id'        =>  'string',
-        'user_agent'        =>  'string',
-        'link'              =>  'string',
-        'link_tags'         =>  'array',
-        'clicked_at'        =>  'datetime',
+        'message_id'        => 'string',
+        'user_agent'        => 'string',
+        'link'              => 'string',
+        'link_tags'         => 'array',
+        'clicked_at'        => 'datetime',
     ];
 
     /**

@@ -2,16 +2,16 @@
 
 namespace Akhan619\LaravelSesEventManager\Mocking;
 
+use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Str;
-use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
 
 class TestMailableWithMultipleRecipients extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
@@ -33,6 +33,6 @@ class TestMailableWithMultipleRecipients extends Mailable
         return $this->to('john@doe.com')
         ->cc('jane@doe.com')
         ->bcc('will@doe.com')
-        ->view(Str::studly(LaravelSesEventManagerServiceProvider::PREFIX) . '::test');
+        ->view(Str::studly(LaravelSesEventManagerServiceProvider::PREFIX).'::test');
     }
 }

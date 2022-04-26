@@ -25,16 +25,16 @@ class EmailBounceFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'    =>  $this->faker->uuid(),
-            'bounce_type'    =>  $this->faker->randomElement(['Permanent', 'Transient']),
-            'bounce_sub_type'    =>  $this->faker->randomElement(['General', 'NoEmail', 'Suppressed', 'MailboxFull', 'MessageTooLarge']),
-            'feedback_id'    =>  $this->faker->uuid(),
-            'bounced_at'    =>  now(),
+            'message_id'         => $this->faker->uuid(),
+            'bounce_type'        => $this->faker->randomElement(['Permanent', 'Transient']),
+            'bounce_sub_type'    => $this->faker->randomElement(['General', 'NoEmail', 'Suppressed', 'MailboxFull', 'MessageTooLarge']),
+            'feedback_id'        => $this->faker->uuid(),
+            'bounced_at'         => now(),
         ];
     }
 
     /**
-     * Add dsn data
+     * Add dsn data.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -42,10 +42,10 @@ class EmailBounceFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'action'            =>  'failed',
-                'status'            =>  '5.1.1',
-                'diagnostic_code'   =>  'smtp; 550 5.1.1 user unknown',
-                'reporting_mta'     =>  'dsn; mta.example.com',
+                'action'            => 'failed',
+                'status'            => '5.1.1',
+                'diagnostic_code'   => 'smtp; 550 5.1.1 user unknown',
+                'reporting_mta'     => 'dsn; mta.example.com',
             ];
         });
     }

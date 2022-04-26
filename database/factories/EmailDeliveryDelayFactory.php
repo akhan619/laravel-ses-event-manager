@@ -25,10 +25,10 @@ class EmailDeliveryDelayFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'            =>  $this->faker->uuid(),
-            'delay_type'            =>  'MailboxFull',
-            'expiration_time'       =>  now()->addDays(3),
-            'delayed_at'            =>  now(),
+            'message_id'            => $this->faker->uuid(),
+            'delay_type'            => 'MailboxFull',
+            'expiration_time'       => now()->addDays(3),
+            'delayed_at'            => now(),
         ];
     }
 }

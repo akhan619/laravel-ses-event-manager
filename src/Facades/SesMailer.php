@@ -16,8 +16,8 @@ class SesMailer extends Facade
     {
         // We use the default mail fake provided by laravel since we don't really have
         // any specific functionality in our SesMailer that we need to fake. And the
-        // default works since there are no mail drivers associated with faking. 
-        static::swap($fake = new MailFake);
+        // default works since there are no mail drivers associated with faking.
+        static::swap($fake = new MailFake());
 
         return $fake;
     }

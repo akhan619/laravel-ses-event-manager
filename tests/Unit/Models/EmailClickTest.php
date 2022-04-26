@@ -16,45 +16,43 @@ class EmailClickTest extends UnitTestCase
         parent::setUp();
 
         // Import the tables from the migration
-        $this->tables = [];    
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_emails_table.php.stub';
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_email_clicks_table.php.stub';
-        
-        foreach($this->tables as $table) 
-        {
+        $this->tables = [];
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_emails_table.php.stub';
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_email_clicks_table.php.stub';
+
+        foreach ($this->tables as $table) {
             $table->up();
         }
     }
-    
+
     protected function tearDown(): void
     {
-        foreach($this->tables as $table) 
-        {
+        foreach ($this->tables as $table) {
             $table->down();
         }
-        
+
         parent::tearDown();
     }
 
     /** @test */
-    function emailClicksTableIsCreatedSuccessfully()
+    public function emailClicksTableIsCreatedSuccessfully()
     {
-        $this->assertTrue(Schema::hasTable(config('laravel-ses-event-manager.database_name_prefix') . '_email_clicks'));
+        $this->assertTrue(Schema::hasTable(config('laravel-ses-event-manager.database_name_prefix').'_email_clicks'));
     }
 
     /** @test */
-    function emailClickModelCanBeCreatedSuccessfully()
+    public function emailClickModelCanBeCreatedSuccessfully()
     {
         $email = Email::factory()->clicked()->create();
         $emailClick = EmailClick::factory()->tagged()->for($email, 'email')->create();
-        
+
         $this->assertModelExists($email);
         $this->assertModelExists($emailClick);
         $this->assertEquals($email->message_id, $emailClick->message_id, 'message_ids dont match for the two model instances.');
     }
 
     /** @test */
-    function modelRelationshipsAreWorking()
+    public function modelRelationshipsAreWorking()
     {
         $email = Email::factory()->clicked()->create();
         $emailClick = EmailClick::factory()->for($email, 'email')->create();

@@ -25,9 +25,9 @@ class EmailFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'    =>  $this->faker->uuid(),
-            'email'         =>  $this->faker->unique()->safeEmail(),
-            'name'          =>  $this->faker->name()
+            'message_id'    => $this->faker->uuid(),
+            'email'         => $this->faker->unique()->safeEmail(),
+            'name'          => $this->faker->name(),
         ];
     }
 

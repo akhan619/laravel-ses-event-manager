@@ -13,14 +13,15 @@ class EmailComplaint extends Model
     /**
      * Create a new Eloquent model instance.
      *
-     * @param  array  $attributes
+     * @param array $attributes
+     *
      * @return void
      */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
 
-        $this->table = config('laravel-ses-event-manager.database_name_prefix') . '_email_complaints';
+        $this->table = config('laravel-ses-event-manager.database_name_prefix').'_email_complaints';
     }
 
     /**
@@ -53,12 +54,12 @@ class EmailComplaint extends Model
      * @var array
      */
     protected $casts = [
-        'message_id'                =>  'string',
-        'feedback_id'               =>  'string',
-        'complaint_sub_type'        =>  'string',
-        'user_agent'                =>  'string',
-        'complaint_feedback_type'   =>  'string',
-        'complained_at'             =>  'datetime',
+        'message_id'                => 'string',
+        'feedback_id'               => 'string',
+        'complaint_sub_type'        => 'string',
+        'user_agent'                => 'string',
+        'complaint_feedback_type'   => 'string',
+        'complained_at'             => 'datetime',
     ];
 
     /**

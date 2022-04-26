@@ -25,15 +25,15 @@ class EmailClickFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'    =>  $this->faker->uuid(),
-            'user_agent'    =>  $this->faker->userAgent(),
-            'link'          =>  $this->faker->url() . '/' . $this->faker->slug(),
-            'clicked_at'    =>  now(),
+            'message_id'    => $this->faker->uuid(),
+            'user_agent'    => $this->faker->userAgent(),
+            'link'          => $this->faker->url().'/'.$this->faker->slug(),
+            'clicked_at'    => now(),
         ];
     }
 
     /**
-     * Add tags to the link
+     * Add tags to the link.
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
@@ -42,7 +42,7 @@ class EmailClickFactory extends Factory
         return $this->state(function (array $attributes) {
             return [
                 'link_tags' => [
-                    $this->faker->word() => $this->faker->word()
+                    $this->faker->word() => $this->faker->word(),
                 ],
             ];
         });

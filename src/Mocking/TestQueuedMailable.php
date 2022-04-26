@@ -2,16 +2,17 @@
 
 namespace Akhan619\LaravelSesEventManager\Mocking;
 
+use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Str;
-use Akhan619\LaravelSesEventManager\LaravelSesEventManagerServiceProvider;
 
 class TestQueuedMailable extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new message instance.
@@ -30,6 +31,6 @@ class TestQueuedMailable extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        return $this->view(Str::studly(LaravelSesEventManagerServiceProvider::PREFIX) . '::test');
+        return $this->view(Str::studly(LaravelSesEventManagerServiceProvider::PREFIX).'::test');
     }
 }

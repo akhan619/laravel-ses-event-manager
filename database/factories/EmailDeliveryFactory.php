@@ -25,8 +25,8 @@ class EmailDeliveryFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'    =>  $this->faker->uuid(),
-            'delivered_at'    =>  now(),
+            'message_id'      => $this->faker->uuid(),
+            'delivered_at'    => now(),
         ];
     }
 }

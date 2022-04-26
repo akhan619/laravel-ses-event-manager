@@ -2,8 +2,8 @@
 
 namespace Akhan619\LaravelSesEventManager\Tests\Feature\Implementations;
 
-use Akhan619\LaravelSesEventManager\Tests\FeatureTestCase;
 use Akhan619\LaravelSesEventManager\App\Models\Email;
+use Akhan619\LaravelSesEventManager\Tests\FeatureTestCase;
 use Illuminate\Routing\Router;
 
 class EventManagerDeliveryDelayTest extends FeatureTestCase
@@ -19,39 +19,37 @@ class EventManagerDeliveryDelayTest extends FeatureTestCase
         parent::setUp();
 
         $this->router = $this->app->make(Router::class);
-        $this->routeName = $this->app->config->get('laravel-ses-event-manager.named_route_prefix') . '.delivery_delays';
+        $this->routeName = $this->app->config->get('laravel-ses-event-manager.named_route_prefix').'.delivery_delays';
 
         // Import the tables from the migration
-        $this->tables = [];    
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_emails_table.php.stub';
-        $this->tables[] = include __DIR__ . '/../../../database/migrations/create_email_delivery_delays_table.php.stub';
-        $this->emailTable = config('laravel-ses-event-manager.database_name_prefix') . '_emails';
-        $this->delayTable = config('laravel-ses-event-manager.database_name_prefix') . '_email_delivery_delays';
-        
-        foreach($this->tables as $table) 
-        {
+        $this->tables = [];
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_emails_table.php.stub';
+        $this->tables[] = include __DIR__.'/../../../database/migrations/create_email_delivery_delays_table.php.stub';
+        $this->emailTable = config('laravel-ses-event-manager.database_name_prefix').'_emails';
+        $this->delayTable = config('laravel-ses-event-manager.database_name_prefix').'_email_delivery_delays';
+
+        foreach ($this->tables as $table) {
             $table->up();
         }
     }
-    
+
     protected function tearDown(): void
     {
-        foreach($this->tables as $table) 
-        {
+        foreach ($this->tables as $table) {
             $table->down();
         }
-        
+
         parent::tearDown();
     }
 
     /** @test */
-    function deliveryDelayEventIsSuccessfullySaved()
+    public function deliveryDelayEventIsSuccessfullySaved()
     {
         $this->assertDatabaseCount($this->delayTable, 0);
         $this->assertDatabaseCount($this->emailTable, 0);
 
         $email = Email::factory()->create();
-        
+
         $this->assertModelExists($email);
         $this->assertDatabaseCount($this->emailTable, 1);
         $this->assertDatabaseHas($this->emailTable, [
@@ -66,11 +64,11 @@ class EventManagerDeliveryDelayTest extends FeatureTestCase
         $this->json(
             'POST',
             "$route->uri",
-            (array)$fakeJson
+            (array) $fakeJson
         )
         ->assertJson(['success' => true])
         ->assertStatus(200);
-        
+
         $this->assertDatabaseCount($this->delayTable, 1);
         $this->assertDatabaseCount($this->emailTable, 1);
         $this->assertDatabaseHas($this->emailTable, [

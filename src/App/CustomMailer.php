@@ -2,18 +2,18 @@
 
 namespace Akhan619\LaravelSesEventManager\App;
 
-use Illuminate\Mail\Mailer;
-use Illuminate\Contracts\Mail\Mailable as MailableContract;
-use Illuminate\Mail\SentMessage;
-use Akhan619\LaravelSesEventManager\App\CustomPendingMail;
 use Akhan619\LaravelSesEventManager\Exceptions\MultipleRecipientsInEmailException;
+use Illuminate\Contracts\Mail\Mailable as MailableContract;
+use Illuminate\Mail\Mailer;
+use Illuminate\Mail\SentMessage;
 
 class CustomMailer extends Mailer
 {
     /**
      * Begin the process of mailing a mailable class instance.
      *
-     * @param  mixed  $users
+     * @param mixed $users
+     *
      * @return Akhan619\LaravelSesEventManager\App\CustomPendingMail
      */
     public function to($users)
@@ -24,7 +24,8 @@ class CustomMailer extends Mailer
     /**
      * Begin the process of mailing a mailable class instance.
      *
-     * @param  mixed  $users
+     * @param mixed $users
+     *
      * @return Akhan619\LaravelSesEventManager\App\CustomPendingMail
      */
     public function cc($users)
@@ -35,7 +36,8 @@ class CustomMailer extends Mailer
     /**
      * Begin the process of mailing a mailable class instance.
      *
-     * @param  mixed  $users
+     * @param mixed $users
+     *
      * @return Akhan619\LaravelSesEventManager\App\CustomPendingMail
      */
     public function bcc($users)
@@ -46,9 +48,10 @@ class CustomMailer extends Mailer
     /**
      * Send a new message using a view.
      *
-     * @param  \Illuminate\Contracts\Mail\Mailable|string|array  $view
-     * @param  array  $data
-     * @param  \Closure|string|null  $callback
+     * @param \Illuminate\Contracts\Mail\Mailable|string|array $view
+     * @param array                                            $data
+     * @param \Closure|string|null                             $callback
+     *
      * @return \Illuminate\Mail\SentMessage|null
      */
     public function send($view, array $data = [], $callback = null)
@@ -67,7 +70,7 @@ class CustomMailer extends Mailer
         // Once we have retrieved the view content for the e-mail we will set the body
         // of this message using the HTML type, which will provide a simple wrapper
         // to creating view based emails that are able to receive arrays of data.
-        if (! is_null($callback)) {
+        if (!is_null($callback)) {
             $callback($message);
         }
 
@@ -86,8 +89,8 @@ class CustomMailer extends Mailer
         $symfonyMessage = $message->getSymfonyMessage();
 
         // Check if multiple recipients exist.
-        if(count($symfonyMessage->getTo()) > 1 || !empty($symfonyMessage->getCc()) || !empty($symfonyMessage->getBcc())){
-            throw new MultipleRecipientsInEmailException("Multiple recipients present. Please ensure there is only one recipient. Make sure Cc and Bcc fields are empty.");
+        if (count($symfonyMessage->getTo()) > 1 || !empty($symfonyMessage->getCc()) || !empty($symfonyMessage->getBcc())) {
+            throw new MultipleRecipientsInEmailException('Multiple recipients present. Please ensure there is only one recipient. Make sure Cc and Bcc fields are empty.');
         }
 
         if ($this->shouldSendMessage($symfonyMessage, $data)) {

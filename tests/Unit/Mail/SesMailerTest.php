@@ -14,7 +14,7 @@ use Akhan619\LaravelSesEventManager\Tests\UnitTestCase;
 use Illuminate\Mail\SendQueuedMailable;
 use Illuminate\Mail\SentMessage;
 use Illuminate\Support\Facades\Queue;
-use \Mockery as m;
+use Mockery as m;
 
 class SesMailerTest extends UnitTestCase
 {
@@ -31,7 +31,7 @@ class SesMailerTest extends UnitTestCase
     {
         $this->assertTrue(app()->bound('SesMailer'));
     }
-    
+
     /**
      * @test
      */
@@ -45,7 +45,7 @@ class SesMailerTest extends UnitTestCase
         $app['config']->set('laravel-ses-event-manager.ses_options.options', ['someKey' => 'someValue']);
         $app['config']->set('laravel-ses-event-manager.ses_options.region', 'Wadiya');
     }
-    
+
     /**
      * @test
      * @define-env setExtraOptions
@@ -55,7 +55,7 @@ class SesMailerTest extends UnitTestCase
         $transport = app()->make('SesMailer')->getSymfonyTransport();
         $this->assertEquals(['someKey' => 'someValue'], $transport->getOptions());
         $this->assertEquals('Wadiya', $transport->ses()->getRegion());
-    }    
+    }
 
     protected function setMailTestingEnvironment($app)
     {
@@ -64,7 +64,7 @@ class SesMailerTest extends UnitTestCase
         $app['config']->set('laravel-ses-event-manager.ses_options.region', 'region1');
         $app['config']->set('laravel-ses-event-manager.ses_options.options.ConfigurationSetName', 'non-existent-set');
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -78,7 +78,7 @@ class SesMailerTest extends UnitTestCase
 
         $sesMailer->shouldReceive('getCustomMailer')->andReturn($customMailer);
 
-        $customMailer->shouldReceive('send')->once()->with($mailable)->andReturnUsing(function() use ($customMailer, $mailable) {
+        $customMailer->shouldReceive('send')->once()->with($mailable)->andReturnUsing(function () use ($customMailer, $mailable) {
             return $customMailer->sendMailable($mailable);
         });
         $customMailer->shouldReceive('send')->once()->andReturn($sentMessage);
@@ -88,7 +88,7 @@ class SesMailerTest extends UnitTestCase
 
         $this->assertTrue(true);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -102,7 +102,7 @@ class SesMailerTest extends UnitTestCase
 
         $sesMailer->shouldReceive('getCustomMailer')->andReturn($customMailer);
 
-        $customMailer->shouldReceive('send')->once()->with($mailable)->andReturnUsing(function() use ($customMailer, $mailable) {
+        $customMailer->shouldReceive('send')->once()->with($mailable)->andReturnUsing(function () use ($customMailer, $mailable) {
             return $customMailer->sendMailable($mailable);
         });
         $customMailer->shouldReceive('send')->once()->andReturn($sentMessage);
@@ -112,7 +112,7 @@ class SesMailerTest extends UnitTestCase
 
         $this->assertTrue(true);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -127,10 +127,10 @@ class SesMailerTest extends UnitTestCase
 
         $sesMailer->shouldReceive('getCustomMailer')->andReturn($customMailer);
 
-        $customMailer->shouldReceive('send')->once()->with($mailable1)->andReturnUsing(function() use ($customMailer, $mailable1) {
+        $customMailer->shouldReceive('send')->once()->with($mailable1)->andReturnUsing(function () use ($customMailer, $mailable1) {
             return $customMailer->sendMailable($mailable1);
         });
-        $customMailer->shouldReceive('send')->once()->with($mailable2)->andReturnUsing(function() use ($customMailer, $mailable2) {
+        $customMailer->shouldReceive('send')->once()->with($mailable2)->andReturnUsing(function () use ($customMailer, $mailable2) {
             return $customMailer->sendMailable($mailable2);
         });
         $customMailer->shouldReceive('send')->twice()->andReturn($sentMessage);
@@ -141,7 +141,7 @@ class SesMailerTest extends UnitTestCase
 
         $this->assertTrue(true);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -157,7 +157,7 @@ class SesMailerTest extends UnitTestCase
         $this->expectException(MultipleRecipientsInEmailException::class);
         $sesMailer->to('john@doe.com')->cc('jane@doe.com')->send($mailable);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -173,7 +173,7 @@ class SesMailerTest extends UnitTestCase
         $this->expectException(MultipleRecipientsInEmailException::class);
         $sesMailer->to('john@doe.com')->bcc('jane@doe.com')->send($mailable);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -189,7 +189,7 @@ class SesMailerTest extends UnitTestCase
         $this->expectException(MultipleRecipientsInEmailException::class);
         $sesMailer->send($mailable);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -204,7 +204,7 @@ class SesMailerTest extends UnitTestCase
         $sesMailer->to('john@doe.com')->send($mailable);
         Queue::assertPushed(SendQueuedMailable::class, 1);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -219,7 +219,7 @@ class SesMailerTest extends UnitTestCase
         $sesMailer->to('john@doe.com')->queue($mailable);
         Queue::assertPushed(SendQueuedMailable::class, 1);
     }
-    
+
     /**
      * @test
      * @define-env setMailTestingEnvironment
@@ -232,8 +232,8 @@ class SesMailerTest extends UnitTestCase
 
         Queue::assertNothingPushed();
         $sesMailer->to('john@doe.com')->queue($mailable);
-        Queue::assertPushed(function(SendQueuedMailable $job) {
-            return ($job->displayName() === TestMailableWithTrait::class);
+        Queue::assertPushed(function (SendQueuedMailable $job) {
+            return $job->displayName() === TestMailableWithTrait::class;
         });
     }
 }

@@ -25,8 +25,8 @@ class EmailSendFactory extends Factory
     public function definition()
     {
         return [
-            'message_id'    =>  $this->faker->uuid(),
-            'sent_at'       =>  now(),
+            'message_id'    => $this->faker->uuid(),
+            'sent_at'       => now(),
         ];
     }
 }
