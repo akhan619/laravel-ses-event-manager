@@ -26,13 +26,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Akhan619\\LaravelSesEventManager\\": "src/",
-            "Akhan619\\LaravelSesEventManager\\Database\\Factories\\": "database/factories/"
+            "Akhan619\\LaravelSesEventManager\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Akhan619\\LaravelSesEventManager\\Tests\\": "tests"
+            "Akhan619\\LaravelSesEventManager\\Tests\\": "tests",
+            "Akhan619\\LaravelSesEventManager\\Database\\Factories\\": "database/factories/"
         }
     },
     "scripts": {

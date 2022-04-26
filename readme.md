@@ -1,5 +1,6 @@
 # Laravel Ses Event Manager
 [![Latest Stable Version](http://poser.pugx.org/akhan619/laravel-ses-event-manager/v?style=flat-square)](https://packagist.org/packages/akhan619/laravel-ses-event-manager)
+![Tests](https://github.com/akhan619/laravel-ses-event-manager/actions/workflows/test.yml/badge.svg?branch=main)
 [![PHP Version Require](http://poser.pugx.org/akhan619/laravel-ses-event-manager/require/php?style=flat-square)](https://packagist.org/packages/akhan619/laravel-ses-event-manager)
 [![Total Downloads](http://poser.pugx.org/akhan619/laravel-ses-event-manager/downloads?style=flat-square)](https://packagist.org/packages/akhan619/laravel-ses-event-manager)
 [![StyleCI](https://github.styleci.io/repos/484619978/shield?branch=main)](https://github.styleci.io/repos/484619978?branch=main)
