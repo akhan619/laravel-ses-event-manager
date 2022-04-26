@@ -10,4 +10,4 @@ All notable changes to `Laravel Ses Event Manager` will be documented in this fi
 - Supports queueing through trait.
 - Supports Laravel 9
 - Supports Php 8.0
-- Supports custome event handler.
+- Supports custom event handler.
