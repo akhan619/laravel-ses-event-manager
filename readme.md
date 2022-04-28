@@ -84,6 +84,16 @@ To start using the package, it is assumed that the necessary set up on `AWS` is 
 
 > **NOTE**: You don't have to confirm the SNS subscription. The package can handle them for you. If you have already completed the above, you can go to the `AWS` console and resend the confirmation notifications and the package will confirm them for you.
 
+# Restrictions
+
+Since the package needs to track email events, there is a limit of **one** recipient per email. So fields like `cc` or `bcc` will not work and throw an exception. This is because `SES` will only send back one id even with multiple recipients. And with one `id` its' not possible to track email events correctly. If you need to send the same email to multiple recipients simply loop over the recipients like below:
+
+```php
+foreach (['john@doe.com', 'jane@doe.com'] as $recipient) {
+    SesMailer::to($recipient)->send($mailable);
+}
+```
+
 # Usage
 
 The package provides the `SesMailer` facade. The facade mimics the Laravel `Mail` facade so can use it just the same. For receiving and storing the notifications successfully, you must use the facade provided by the package. This is so we can track emails by the id provided by `SES`.
