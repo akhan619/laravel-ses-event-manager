@@ -19,6 +19,7 @@ class EmailSubscriptionTest extends UnitTestCase
         $this->tables = [];
         $this->tables[] = include __DIR__.'/../../../database/migrations/create_emails_table.php.stub';
         $this->tables[] = include __DIR__.'/../../../database/migrations/create_email_subscriptions_table.php.stub';
+        $this->tables[] = include __DIR__.'/../../../database/migrations/add_subject_to_emails_table.php.stub';
 
         foreach ($this->tables as $table) {
             $table->up();
@@ -27,7 +28,7 @@ class EmailSubscriptionTest extends UnitTestCase
 
     protected function tearDown(): void
     {
-        foreach ($this->tables as $table) {
+        foreach (array_reverse($this->tables) as $table) {
             $table->down();
         }
 
