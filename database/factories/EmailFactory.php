@@ -28,6 +28,7 @@ class EmailFactory extends Factory
             'message_id'    => $this->faker->uuid(),
             'email'         => $this->faker->unique()->safeEmail(),
             'name'          => $this->faker->name(),
+            'subject'       => $this->faker->sentence(),
         ];
     }
 

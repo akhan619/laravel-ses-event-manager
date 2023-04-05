@@ -25,6 +25,7 @@ class EventManagerRenderingFailureTest extends FeatureTestCase
         $this->tables = [];
         $this->tables[] = include __DIR__.'/../../../database/migrations/create_emails_table.php.stub';
         $this->tables[] = include __DIR__.'/../../../database/migrations/create_email_rendering_failures_table.php.stub';
+        $this->tables[] = include __DIR__.'/../../../database/migrations/add_subject_to_emails_table.php.stub';
         $this->emailTable = config('laravel-ses-event-manager.database_name_prefix').'_emails';
         $this->renderingTable = config('laravel-ses-event-manager.database_name_prefix').'_email_rendering_failures';
 
@@ -35,7 +36,7 @@ class EventManagerRenderingFailureTest extends FeatureTestCase
 
     protected function tearDown(): void
     {
-        foreach ($this->tables as $table) {
+        foreach (array_reverse($this->tables) as $table) {
             $table->down();
         }
 

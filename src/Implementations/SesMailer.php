@@ -134,7 +134,7 @@ class SesMailer implements SesMailerContract
     }
 
     /**
-     * Save the email in the databse.
+     * Save the email in the database.
      *
      * @return void
      */
@@ -149,6 +149,7 @@ class SesMailer implements SesMailerContract
                 'message_id'        => $result->getOriginalMessage()->getHeaders()->get('X-SES-Message-ID')->getValue(),
                 'email'             => current($result->getOriginalMessage()->getTo())->getAddress(),
                 'name'              => current($result->getOriginalMessage()->getTo())->getName(),
+                'subject'           => $result->getOriginalMessage()->getSubject(),
             ]);
         }
     }

@@ -90,6 +90,7 @@ class LaravelSesEventManagerServiceProvider extends ServiceProvider
             __DIR__.'/../database/migrations/create_email_rendering_failures_table.php.stub' => database_path('migrations/'.date('Y_m_d_His', now()->addSeconds(8)->timestamp).'_create_'.config('laravel-ses-event-manager.database_name_prefix').'_email_rendering_failures_table.php'),
             __DIR__.'/../database/migrations/create_email_delivery_delays_table.php.stub'    => database_path('migrations/'.date('Y_m_d_His', now()->addSeconds(9)->timestamp).'_create_'.config('laravel-ses-event-manager.database_name_prefix').'_email_delivery_delays_table.php'),
             __DIR__.'/../database/migrations/create_email_subscriptions_table.php.stub'      => database_path('migrations/'.date('Y_m_d_His', now()->addSeconds(10)->timestamp).'_create_'.config('laravel-ses-event-manager.database_name_prefix').'_email_subscriptions_table.php'),
+            __DIR__.'/../database/migrations/add_subject_to_emails_table.php.stub'           => database_path('migrations/'.date('Y_m_d_His', now()->addSeconds(11)->timestamp).'_create_'.config('laravel-ses-event-manager.database_name_prefix').'_add_subject_to_emails_table.php'),
         ], self::PREFIX.'-migrations');
     }
 
