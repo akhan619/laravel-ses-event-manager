@@ -6,6 +6,7 @@ use Akhan619\LaravelSesEventManager\Exceptions\MultipleRecipientsInEmailExceptio
 use Illuminate\Contracts\Mail\Mailable as MailableContract;
 use Illuminate\Mail\Mailer;
 use Illuminate\Mail\SentMessage;
+use Illuminate\Mail\Mailables\Address;
 
 class CustomMailer extends Mailer
 {
@@ -16,8 +17,12 @@ class CustomMailer extends Mailer
      *
      * @return Akhan619\LaravelSesEventManager\App\CustomPendingMail
      */
-    public function to($users)
+    public function to($users, $name = null)
     {
+        if (!is_null($name) && is_string($users)) {
+            $users = new Address($users, $name);
+        }
+
         return (new CustomPendingMail($this))->to($users);
     }
 
@@ -28,8 +33,12 @@ class CustomMailer extends Mailer
      *
      * @return Akhan619\LaravelSesEventManager\App\CustomPendingMail
      */
-    public function cc($users)
+    public function cc($users, $name = null)
     {
+        if (!is_null($name) && is_string($users)) {
+            $users = new Address($users, $name);
+        }
+
         return (new CustomPendingMail($this))->cc($users);
     }
 
@@ -40,8 +49,12 @@ class CustomMailer extends Mailer
      *
      * @return Akhan619\LaravelSesEventManager\App\CustomPendingMail
      */
-    public function bcc($users)
+    public function bcc($users, $name = null)
     {
+        if (!is_null($name) && is_string($users)) {
+            $users = new Address($users, $name);
+        }
+
         return (new CustomPendingMail($this))->bcc($users);
     }
 
