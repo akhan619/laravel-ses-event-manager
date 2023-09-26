@@ -125,15 +125,16 @@ class BaseController extends Controller implements BaseControllerContract
         // At this point we have a valid SNS notification message.
         $message = json_decode($body->Message);
 
-        if (!isset($message->eventType)) {
-            $message->eventType = $message->notificationType;
-        }
-
         // The SES event notification has a Message property that should be a object when decoded.
         if (!is_object($message)) {
             Log::error('Result message failed to decode: '.json_last_error_msg());
 
             return response()->json(['success' => false], 422);
+        }
+
+        // Handle notificationType field that can be present instead of eventType
+        if (!isset($message->eventType)) {
+            $message->eventType = $message->notificationType;
         }
 
         return $message;
