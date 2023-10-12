@@ -132,6 +132,11 @@ class BaseController extends Controller implements BaseControllerContract
             return response()->json(['success' => false], 422);
         }
 
+        // Handle notificationType field that can be present instead of eventType
+        if (!isset($message->eventType)) {
+            $message->eventType = $message->notificationType;
+        }
+
         return $message;
     }
 
